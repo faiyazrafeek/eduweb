@@ -7,22 +7,22 @@ include("navbar.php");
         <h1 class="display-4 text-center my-4">Courses</h1>
 
        <div class="row">
-           <div class="col-md-6">
-           <form>
+           <div class="col-md-6 mb-md-0 mb-5">
+           <form action="addCourse.php" method="POST">
         <div class="mb-3">
             <label for="id" class="form-label">Course ID</label>
-            <input type="text" class="form-control" id="id" aria-describedby="emailHelp">
+            <input type="text" class="form-control" name="id" aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
             <label for="title" class="form-label">Course Title</label>
-            <input type="text" class="form-control" id="title">
+            <input type="text" class="form-control" name="title">
         </div>
         <div class="mb-3">
-            <label for="tiduration" class="form-label">Course Duration</label>
-            <input type="text" class="form-control" id="duration">
+            <label for="duration" class="form-label">Course Duration</label>
+            <input type="text" class="form-control" name="duration">
         </div>
        
-        <button type="submit" class="btn btn-primary">Add Course</button>
+        <button type="submit" class="btn btn-primary" name="save" >Add Course</button>
         </form>
            </div>
            <div class="col-md-6">
@@ -30,10 +30,9 @@ include("navbar.php");
   <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th>#ID</th>
+      <th>Course Title</th>
+      <th>Course Duration</th>
     </tr>
   </thead>
   <tbody>
@@ -41,19 +40,10 @@ include("navbar.php");
       <th scope="row">1</th>
       <td>Mark</td>
       <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
+      <td>
+        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+        <a href="#" class="btn btn-sm btn-secondary">Update</a>
+      </td>
     </tr>
   </tbody>
   </table>
