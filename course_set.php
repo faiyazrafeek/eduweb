@@ -1,34 +1,50 @@
 <?php
+  session_start();
+  require("connection.php");
 
-require("connection.php");
+  $id = "";
+  $title = "";
+  $duration = 0;
+  $edit_state = false;
 
-if (isset($_POST["save"])){
-  $id = $_POST["id"];
-  $title = $_POST["title"];
-  $duration = $_POST["duration"];
+  // CREATE
+  if (isset($_POST["save"])){
+    $id = $_POST["id"];
+    $title = $_POST["title"];
+    $duration = $_POST["duration"];
 
-  $sql = "INSERT INTO courses (course_id, course_title, course_duration)
-  VALUES ('$id', '$title', '$duration')";
+    $sql = "INSERT INTO courses (course_id, course_title, course_duration)
+    VALUES ('$id', '$title', '$duration')";
 
-  if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($conn, $sql)) {
+      $_SESSION["msg"] = "Course Added";
+      header("location: course.php");
+    } else {
+      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+  }
+
+  // READ
+  $sql = "SELECT * FROM courses";
+  $result = mysqli_query($conn, $sql);
+
+  // UPDATE
+  if (isset($_POST["update"])){
+    $id = mysqli_real_escape_string($conn, $_POST["id"]);
+    $title = mysqli_real_escape_string($conn, $_POST["title"]);
+    $duration = mysqli_real_escape_string($conn, $_POST["duration"]);
+
+    mysqli_query($conn, "UPDATE courses SET course_title='$title', course_duration='$duration' WHERE course_id='$id' ");
+    $_SESSION["msg"] = "Course Updated";
     header("location: course.php");
-  } else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
   }
-}
 
-$sql = "SELECT * FROM courses";
-$result = mysqli_query($conn, $sql);
+  // DELETE
+  if (isset($_GET["del"])){
+    $id = $_GET["del"];
 
-if (mysqli_num_rows($result) > 0) {
-  // output data of each row
-  while($row = mysqli_fetch_assoc($result)) {
-    echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+    mysqli_query($conn, "DELETE FROM courses WHERE course_id='$id' ");
+    $_SESSION["msg"] = "Course Deleted";
+    header("location: course.php");
   }
-} else {
-  echo "0 results";
-}
-
-mysqli_close($conn);
-
 ?>
